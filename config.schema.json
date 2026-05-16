@@ -22,6 +22,24 @@
         "required": true,
         "title": "Token",
         "default": ""
+      },
+      "debounceMs": {
+        "type": "integer",
+        "title": "Debounce (ms)",
+        "default": 400,
+        "minimum": 0
+      },
+      "commandTimeoutMs": {
+        "type": "integer",
+        "title": "Command timeout (ms)",
+        "default": 8000,
+        "minimum": 1000
+      },
+      "refreshOnGetCooldownMs": {
+        "type": "integer",
+        "title": "Get refresh cooldown (ms)",
+        "default": 2000,
+        "minimum": 0
       }
     }
   }
