@@ -49,6 +49,11 @@ class MiLedDesklamp {
       ? Math.max(0, Math.round(refreshOnGetCooldownMs))
       : 2000
 
+    const pollIntervalSec = Number(config['pollInterval'])
+    this.pollIntervalMs = Number.isFinite(pollIntervalSec) && pollIntervalSec > 0
+      ? Math.max(10, Math.round(pollIntervalSec)) * 1000
+      : 0
+
     // Caché local
     this.cache = {
       power: false,
@@ -89,6 +94,12 @@ class MiLedDesklamp {
       .onSet(this.setColorTemperature.bind(this))
 
     this.getLamp().catch(() => {})
+
+    if (this.pollIntervalMs > 0) {
+      this.pollTimer = setInterval(() => {
+        this.refreshNow().catch(() => {})
+      }, this.pollIntervalMs)
+    }
   }
 
   async withTimeout(promise, label) {
@@ -187,15 +198,15 @@ class MiLedDesklamp {
   async refreshNow() {
     const now = Date.now()
 
-    if (this.refreshInFlight) return
-    if (now - this.lastRefreshRequestAt < this.refreshOnGetCooldownMs) return
+    if (this.refreshInFlight) return false
+    if (now - this.lastRefreshRequestAt < this.refreshOnGetCooldownMs) return false
 
     this.lastRefreshRequestAt = now
     this.refreshInFlight = true
 
     try {
       const device = await this.getLamp()
-      if (!device) return
+      if (!device) return false
 
       const power = await this.withTimeout(
         Promise.resolve(device.power()),
@@ -227,9 +238,12 @@ class MiLedDesklamp {
       this.lamp
         .getCharacteristic(Characteristic.ColorTemperature)
         .updateValue(mired)
+
+      return true
     } catch (error) {
       this.log.error('Error refreshing lamp state', error)
       this.dropDevice()
+      return false
     } finally {
       this.refreshInFlight = false
     }

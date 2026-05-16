@@ -40,6 +40,12 @@
         "title": "Get refresh cooldown (ms)",
         "default": 2000,
         "minimum": 0
+      },
+      "pollInterval": {
+        "type": "integer",
+        "title": "Poll interval (seconds, 0 = disabled)",
+        "default": 0,
+        "minimum": 0
       }
     }
   }

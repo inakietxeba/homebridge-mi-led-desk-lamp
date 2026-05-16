@@ -55,6 +55,7 @@ npm install -g homebridge-mi-led-desk-lamp
 | `debounceMs` | 400 | Delay (ms) before sending brightness/color changes to avoid command spam while moving sliders |
 | `commandTimeoutMs` | 8000 | Maximum wait (ms) for a device command before treating it as failed |
 | `refreshOnGetCooldownMs` | 2000 | Minimum interval (ms) between background refreshes triggered by HomeKit get calls |
+| `pollInterval` | 0 | Periodic state sync interval in seconds (0 = disabled, minimum 10). Useful to detect physical button or Mi Home app changes |
 
 ## Credits
 
