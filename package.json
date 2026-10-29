@@ -1,6 +1,6 @@
 {
   "name": "homebridge-mi-led-desk-lamp",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Homebridge plugin for Xiaomi Mi LED Desk Lamp (MJTD01YL) with improved stability and Homebridge v2 support",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,23 @@
     "miio": "^0.15.6"
   },
   "devDependencies": {
-    "jest": "^30.4.2"
+    "jest": "^30.5.2"
+  },
+  "overrides": {
+    "execa": {
+      "cross-spawn": "^6.0.6"
+    },
+    "os-locale": {
+      "mem": "^4.3.0"
+    },
+    "miio": {
+      "yargs-parser": "^13.1.2",
+      "yargs": {
+        "yargs-parser": "^13.1.2"
+      }
+    },
+    "jest-config": {
+      "deepmerge": "4.1.1"
+    }
   }
 }
